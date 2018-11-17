@@ -77,12 +77,12 @@ public class SeeFood extends AppCompatActivity {
 
         if (requestCode == imageCapture) {
             Bitmap bitmap = (Bitmap)data.getExtras().get("data");
-            ConfirmImages.getImages().add(bitmap); //delete later
+            ConfirmImages.getImages().add(new Image().createImage(bitmap)); //delete later
         } else if (requestCode == imageGallery) {
             Uri uri = data.getData();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                ConfirmImages.getImages().add(bitmap); //delete later
+                ConfirmImages.getImages().add(new Image().createImage(bitmap)); //delete later
             } catch (IOException e) {
                 e.printStackTrace();
             }

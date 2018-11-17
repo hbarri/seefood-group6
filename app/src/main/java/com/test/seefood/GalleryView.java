@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
-import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,11 +24,10 @@ public class GalleryView extends AppCompatActivity {
         getDataBase();
 
         // for now receive images list from confirm images view
-        List<Bitmap> bitmaps = ConfirmImages.mImages;
-        convertToImage(bitmaps);
+        copyImages(ConfirmImages.images);
 
         // reset list of images selected
-        ConfirmImages.mImages = new ArrayList<>();
+        ConfirmImages.images = new ArrayList<>();
 
         GridView gridView = findViewById(R.id.gridView);
         final ImageAdapter imageAdapter = new ImageAdapter(this, images, false);
@@ -65,9 +63,9 @@ public class GalleryView extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void convertToImage(List<Bitmap> list) {
+    public void copyImages(List<Image> list) {
         for (int i = 0; i < list.size(); i++) {
-            images.add(new Image().createImage(list.get(i)));
+            images.add(list.get(i));
         }
     }
 

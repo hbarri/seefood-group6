@@ -22,10 +22,12 @@ public class ImageInflater extends AppCompatActivity {
         Image image = images.get(intent.getIntExtra("position", 0));
 
         ImageView imageView = findViewById(R.id.imageView);
-        TextView textView = findViewById(R.id.isFood);
+        TextView isFoodText = findViewById(R.id.isFood);
+        TextView confidence = findViewById(R.id.confidenceLevel);
 
         imageView.setImageBitmap(image.getImage());
-        textView.setText(image.getIsFood());
+        isFoodText.setText(image.getIsFood());
+        confidence.setText(image.getConfidenceLevel());
 
         Button back = findViewById(R.id.backBtn);
         back.setOnClickListener(new View.OnClickListener() {

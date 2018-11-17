@@ -3,7 +3,9 @@ package com.test.seefood;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -11,21 +13,28 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.TextView;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.Socket;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class ConfirmImages extends AppCompatActivity {
     private final int imageCapture = 1, imageGallery = 2;
-    public static List<Bitmap> mImages = new ArrayList();
+    public static List<Image> images = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.confirm_images);
 
-        List<Image> images = convertToImage(mImages);
         GridView gridView = findViewById(R.id.gridView);
         final ImageAdapter imageAdapter = new ImageAdapter(this, images, true);
         gridView.setAdapter(imageAdapter);
@@ -57,35 +66,36 @@ public class ConfirmImages extends AppCompatActivity {
         testImages.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                testImages();
+                try {
+                    testImages();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
 
-    public static List<Bitmap> getImages() {
-        return mImages;
+    public static List<Image> getImages() {
+        return images;
     }
 
     public void removeImage(int position) {
-        mImages.remove(position);
+        images.remove(position);
 
         Intent intent = new Intent(getBaseContext(), ConfirmImages.class);
         startActivity(intent);
     }
 
-    public List<Image> convertToImage(List<Bitmap> list) {
-        List<Image> images = new ArrayList<>();
-        for (int i = 0; i < list.size(); i++) {
-            images.add(new Image().createImage(list.get(i)));
-        }
+    public void testImages() throws IOException, InterruptedException, ExecutionException {
+        // send image through API to receive and update response
+        Bitmap bm = images.get(0).getImage();
+        Image image = images.get(0);
+        API api = new API(bm, image);
 
-        return images;
-    }
-
-    public void testImages() {
-        // send images list up to api to get tested by AI
+        api.execute();
 
         // redirect to gallery
+
         Intent intent = new Intent(getBaseContext(), GalleryView.class);
         startActivity(intent);
     }
@@ -106,12 +116,12 @@ public class ConfirmImages extends AppCompatActivity {
 
         if (requestCode == imageCapture) {
             Bitmap bitmap = (Bitmap)data.getExtras().get("data");
-            mImages.add(bitmap);
+            images.add(new Image().createImage(bitmap));
         } else if (requestCode == imageGallery) {
             Uri uri = data.getData();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                mImages.add(bitmap);
+                images.add(new Image().createImage(bitmap));
             } catch (IOException e) {
                 e.printStackTrace();
             }

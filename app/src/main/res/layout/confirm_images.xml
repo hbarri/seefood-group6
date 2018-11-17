@@ -13,8 +13,8 @@
         android:layout_height="wrap_content"
         android:text="Confirm Image(s)"
         android:textSize="40sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <GridView
         android:id="@+id/gridView"
@@ -35,8 +35,7 @@
         app:layout_constraintBottom_toTopOf="@+id/captureImageBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/confirmImagesText">
-    </GridView>
+        app:layout_constraintTop_toBottomOf="@+id/confirmImagesText"></GridView>
 
     <Button
         android:id="@+id/captureImageBtn"
@@ -81,7 +80,7 @@
         android:text="TEST"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

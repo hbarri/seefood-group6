@@ -22,14 +22,6 @@
         <activity
             android:name=".GalleryView"
             android:label="@string/title_activity_gallery_view"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".ImageInflater"
-            android:label="@string/title_activity_image_inflater"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".ConfirmImages"
-            android:label="@string/title_activity_confirm_images"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
