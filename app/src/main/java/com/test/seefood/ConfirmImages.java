@@ -87,15 +87,21 @@ public class ConfirmImages extends AppCompatActivity {
     }
 
     public void testImages() throws IOException, InterruptedException, ExecutionException {
-        // send image through API to receive and update response
-        Bitmap bm = images.get(0).getImage();
-        Image image = images.get(0);
-        API api = new API(bm, image);
+        // start ec2 instance
 
-        api.execute();
+        // start python server
+        Runtime.getRuntime().exec("cmd /c start cmd.exe /K \"cd C:\\Users\\hanee_000\\Desktop && ssh -i \"4110key.pem\" ubuntu@18.188.220.241\"");
+
+        // send image through API to receive and update response
+        for (int i = 0; i < images.size(); i++) {
+            Bitmap bm = images.get(i).getImage();
+            Image image = images.get(i);
+            API api = new API(bm, image);
+
+            api.execute();
+        }
 
         // redirect to gallery
-
         Intent intent = new Intent(getBaseContext(), GalleryView.class);
         startActivity(intent);
     }
