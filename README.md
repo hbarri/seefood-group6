@@ -7,9 +7,9 @@ As the Beta version of our product, our application currently allows the user to
 This means that our application currently satisfies the requirement of sending images to the server to be tested by the AI, 
 recieving responses from the AI, saving the images and responses to the application's gallery, uploads images to be tested from 
 gallery, uploads images taken from camera to be tested, compatible with common image types, and has the ability to send multiple 
-images at once. In order to use our application, the EC2 server instance must be started with it's python server running.
+images at once. In order to use our application, the EC2 server instance must be started up with the public key uploaded to the git repository. The python server script within the seefood folder on the server must then start running.
 
-Below shows screenshots of the application in action.
+The application can be launched on an android device through either installing the APK (within the bin folder) onto the android device or by cloning the project, opening it up in android studio, and launching the application on the device. Below shows screenshots of the application in action.
 
 <img src="https://user-images.githubusercontent.com/22596783/48750265-3e330200-ec4c-11e8-89e5-fd0e3f7d1b63.png" width="300" height="550">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://user-images.githubusercontent.com/22596783/48750267-425f1f80-ec4c-11e8-89eb-0bbd8fd5f159.png" width="300" height="550">
 
