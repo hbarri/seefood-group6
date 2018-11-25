@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -90,13 +91,12 @@ public class ConfirmImages extends AppCompatActivity {
         // start ec2 instance
 
         // start python server
-        Runtime.getRuntime().exec("cmd /c start cmd.exe /K \"cd C:\\Users\\hanee_000\\Desktop && ssh -i \"4110key.pem\" ubuntu@18.188.220.241\"");
+        //Runtime.getRuntime().exec("cmd /c start cmd.exe /K \"cd C:\\Users\\hanee_000\\Desktop && ssh -i \"4110key.pem\" ubuntu@18.188.220.241\"");
 
         // send image through API to receive and update response
         for (int i = 0; i < images.size(); i++) {
             Bitmap bm = images.get(i).getImage();
-            Image image = images.get(i);
-            API api = new API(bm, image);
+            API api = new API(bm);
 
             api.execute();
         }

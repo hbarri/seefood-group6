@@ -2,68 +2,75 @@ package com.test.seefood;
 
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.util.Base64;
 import android.util.Log;
-import android.widget.TextView;
 
-import org.w3c.dom.Text;
-import org.xml.sax.InputSource;
-import org.xml.sax.XMLReader;
-
-import java.io.BufferedReader;
+import org.json.JSONException;
+import org.json.JSONObject;
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStreamReader;
+import java.io.IOException;
 import java.io.OutputStream;
-import java.net.Socket;
-import java.nio.ByteBuffer;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class API extends AsyncTask<Void, Void, Void> {
     Bitmap bitmap;
-    Image image;
-    boolean responseBool;
 
-    API(Bitmap bitmap, Image image) {
+    API(Bitmap bitmap) {
         this.bitmap = bitmap;
-        this.image = image;
     }
 
     @Override
     protected Void doInBackground(Void... Void) {
-        try{
-            // send images list up to api to get tested by AI
-            // open socket to connect to server
-            Socket socket = new Socket("18.188.220.241", 9090);
-            OutputStream outputStream = socket.getOutputStream();
+        // receive images and convert to byte array output stream
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        byte[] byteArray = byteArrayOutputStream .toByteArray();
+        String encodedImage = Base64.encodeToString(byteArray, Base64.DEFAULT);
 
-            // receive images and convert to byte array output stream
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 70, byteArrayOutputStream);
+        // create JSON object
+        JSONObject json = new JSONObject();
 
-            // send size of image and image itself
-            byte[] size = ByteBuffer.allocate(4).putInt(byteArrayOutputStream.size()).array();
-            outputStream.write(size);
-            outputStream.write(byteArrayOutputStream.toByteArray());
-            outputStream.flush();
+        try {
+            json.put("byte", encodedImage);
 
-            // receive response from AI
-            BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            String response = input.readLine();
-            image.setConfidenceLevel(input.readLine());
-            response += input.readLine();
+            // set url to ec2 server
+            URL url = new URL("http://18.188.220.241:5000/api/images");
 
-            if (response.contains("I see food!")) responseBool = true;
-            else responseBool = false;
+            // create HttpURLConnection
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/json; charset=utf-8");
 
-            outputStream.flush();
-            outputStream.close();
-            socket.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+            // add JSON content to POST request body
+            OutputStream os = conn.getOutputStream();
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+            writer.write(json.toString());
+            writer.flush();
+            writer.close();
+            os.close();
+
+            // make POST request to the given URL
+            //conn.connect();
+            conn.getResponseMessage();
+
+            URL url2 = new URL("http://18.188.220.241:5000/api/close");
+
+            HttpURLConnection conn2 = (HttpURLConnection) url2.openConnection();
+            conn2.setRequestMethod("GET");
+            conn2.setRequestProperty("Content-Type", "application/json; charset=utf-8");
+
+            //conn2.connect();
+            conn2.getResponseMessage();
+
+            conn.disconnect();
+            conn2.disconnect();
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
-        return null;
-    }
 
-    @Override
-    protected void onPostExecute(Void aVoid) {
-        image.setIsFood(responseBool);
+        return null;
     }
 }

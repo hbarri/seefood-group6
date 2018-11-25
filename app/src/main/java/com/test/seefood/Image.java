@@ -17,9 +17,6 @@ public class Image {
         dateCreated = new Date();
         image = bitmap;
 
-        Random rand = new Random();
-        name = "image" + rand.nextInt((43782 - 1) + 1) + 1;
-
         return this;
     }
 
