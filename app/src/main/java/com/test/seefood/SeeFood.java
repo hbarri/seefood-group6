@@ -6,22 +6,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.GridView;
-import android.widget.ImageView;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.zip.DataFormatException;
 
 public class SeeFood extends AppCompatActivity {
     private final int imageCapture = 1, imageGallery = 2;
@@ -77,12 +67,12 @@ public class SeeFood extends AppCompatActivity {
 
         if (requestCode == imageCapture) {
             Bitmap bitmap = (Bitmap)data.getExtras().get("data");
-            ConfirmImages.getImages().add(new Image().createImage(bitmap)); //delete later
+            ConfirmImages.getImagesToConfirm().add(new Image().createImage(bitmap));
         } else if (requestCode == imageGallery) {
             Uri uri = data.getData();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                ConfirmImages.getImages().add(new Image().createImage(bitmap)); //delete later
+                ConfirmImages.getImagesToConfirm().add(new Image().createImage(bitmap));
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -3,33 +3,23 @@ package com.test.seefood;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
-import android.widget.TextView;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.Socket;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class ConfirmImages extends AppCompatActivity {
     private final int imageCapture = 1, imageGallery = 2;
-    public static List<Image> images = new ArrayList<>();
+    public static List<Image> imagesToConfirm = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +27,7 @@ public class ConfirmImages extends AppCompatActivity {
         setContentView(R.layout.confirm_images);
 
         GridView gridView = findViewById(R.id.gridView);
-        final ImageAdapter imageAdapter = new ImageAdapter(this, images, true);
+        final ImageAdapter imageAdapter = new ImageAdapter(this, imagesToConfirm, true);
         gridView.setAdapter(imageAdapter);
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -76,30 +66,25 @@ public class ConfirmImages extends AppCompatActivity {
         });
     }
 
-    public static List<Image> getImages() {
-        return images;
+    public static List<Image> getImagesToConfirm() {
+        return imagesToConfirm;
     }
 
     public void removeImage(int position) {
-        images.remove(position);
+        imagesToConfirm.remove(position);
 
         Intent intent = new Intent(getBaseContext(), ConfirmImages.class);
         startActivity(intent);
     }
 
     public void testImages() throws IOException, InterruptedException, ExecutionException {
-        // start ec2 instance
+        // send images through API_Post to receive and update response
+        API_P api = new API_P(imagesToConfirm, GalleryView.getImages());
+        api.execute();
 
-        // start python server
-        //Runtime.getRuntime().exec("cmd /c start cmd.exe /K \"cd C:\\Users\\hanee_000\\Desktop && ssh -i \"4110key.pem\" ubuntu@18.188.220.241\"");
-
-        // send image through API to receive and update response
-        for (int i = 0; i < images.size(); i++) {
-            Bitmap bm = images.get(i).getImage();
-            API api = new API(bm);
-
-            api.execute();
-        }
+        // update database
+        API_C api2 = new API_C();
+        api2.execute();
 
         // redirect to gallery
         Intent intent = new Intent(getBaseContext(), GalleryView.class);
@@ -122,12 +107,12 @@ public class ConfirmImages extends AppCompatActivity {
 
         if (requestCode == imageCapture) {
             Bitmap bitmap = (Bitmap)data.getExtras().get("data");
-            images.add(new Image().createImage(bitmap));
+            imagesToConfirm.add(new Image().createImage(bitmap));
         } else if (requestCode == imageGallery) {
             Uri uri = data.getData();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                images.add(new Image().createImage(bitmap));
+                imagesToConfirm.add(new Image().createImage(bitmap));
             } catch (IOException e) {
                 e.printStackTrace();
             }
