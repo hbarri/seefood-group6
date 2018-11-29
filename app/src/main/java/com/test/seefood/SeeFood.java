@@ -6,10 +6,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.io.IOException;
 
@@ -20,6 +22,9 @@ public class SeeFood extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.start_screen_view);
+
+        //setup the action bar
+        setupActionBar();
 
         Button takeImage = findViewById(R.id.captureImageBtn);
         takeImage.setOnClickListener(new View.OnClickListener() {
@@ -80,5 +85,13 @@ public class SeeFood extends AppCompatActivity {
 
         Intent intent = new Intent(getBaseContext(), ConfirmImages.class);
         startActivity(intent);
+    }
+
+    public void setupActionBar() {
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.actionbar);
+        TextView tv = getSupportActionBar().getCustomView().findViewById(R.id.action_bar_title);
+        tv.setText("SeeFood");
+        tv.setPadding(0, 0, 0, 0);
     }
 }

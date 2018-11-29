@@ -5,82 +5,88 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".ConfirmImages">
-
-    <TextView
-        android:id="@+id/confirmImagesText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Confirm Image(s)"
-        android:textSize="40sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+    tools:context=".ConfirmImages"
+    android:background="@color/darkBackground">
 
     <GridView
         android:id="@+id/gridView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:columnWidth="250dp"
+        android:layout_marginTop="15dp"
+        android:columnWidth="160dp"
         android:gravity="center"
-        android:horizontalSpacing="10dp"
-        android:numColumns="2"
+        android:horizontalSpacing="0dp"
+        android:numColumns="auto_fit"
         android:stretchMode="spacingWidthUniform"
-        android:verticalSpacing="30dp"
-        app:layout_constraintBottom_toTopOf="@+id/captureImageBtn"
+        android:verticalSpacing="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/testImagesBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/confirmImagesText"></GridView>
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Button
+    </GridView>
+
+    <ImageButton
         android:id="@+id/captureImageBtn"
-        android:layout_width="wrap_content"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="4dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginStart="4dp"
-        android:text="CAPTURE IMAGE"
-        android:textSize="24sp"
+        android:textSize="15sp"
+        android:textColor="@color/black"
+        android:background="@color/appTheme"
+        android:src="@drawable/camera"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/testImagesBtn"/>
 
-    <Button
-        android:id="@+id/uploadImageBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="4dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginStart="4dp"
-        android:text="UPLOAD IMAGE"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+    <View
+        android:id="@+id/divider1"
+        android:layout_width="1dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:elevation="1dp"
+        app:layout_constraintLeft_toRightOf="@id/testImagesBtn"
+        app:layout_constraintTop_toBottomOf="@+id/gridView" />
 
-    <Button
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="1dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:elevation="1dp"
+        app:layout_constraintRight_toLeftOf="@id/testImagesBtn"
+        app:layout_constraintTop_toBottomOf="@+id/gridView" />
+
+    <ImageButton
         android:id="@+id/testImagesBtn"
-        android:layout_width="wrap_content"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="70dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="4dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:text="TEST"
-        android:textSize="24sp"
+        android:layout_weight="1"
+        android:textSize="15sp"
+        android:background="@color/appTheme"
+        android:src="@drawable/eye"
+        app:layout_constraintTop_toBottomOf="@+id/gridView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <ImageButton
+        android:id="@+id/uploadImageBtn"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="157dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@color/appTheme"
+        android:src="@drawable/upload"
+        android:textColor="@color/white"
+        android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@id/testImagesBtn" />
 
 </android.support.constraint.ConstraintLayout>

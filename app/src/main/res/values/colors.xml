@@ -3,4 +3,15 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="appTheme">#30bc71</color>
+    <color name="appThemeLight">#65bc8d</color>
+    <color name="darkTheme">#606060</color>
+    <color name="lightBackground">#8e8e8e</color>
+    <color name="white">#f9f9f9</color>
+    <color name="black">#000000</color>
+    <color name="green">#3bcc4e</color>
+    <color name="middleGreen">#288c36</color>
+    <color name="purple">#8d30af</color>
+    <color name="darkBackground">#282933</color>
+    <color name="dark">#15161D</color>
 </resources>

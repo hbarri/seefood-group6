@@ -6,11 +6,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,18 +29,21 @@ public class ConfirmImages extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.confirm_images);
 
-        GridView gridView = findViewById(R.id.gridView);
+        //setup action bar
+        setupActionBar();
+
+        final GridView gridView = findViewById(R.id.gridView);
         final ImageAdapter imageAdapter = new ImageAdapter(this, imagesToConfirm, true);
         gridView.setAdapter(imageAdapter);
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView parent, View view, int position, long id) {
-                removeImage(position);
+                removeImage(position, imageAdapter, gridView);
             }
         });
 
-        Button takeImage = findViewById(R.id.captureImageBtn);
+        ImageButton takeImage = findViewById(R.id.captureImageBtn);
         takeImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -45,7 +51,7 @@ public class ConfirmImages extends AppCompatActivity {
             }
         });
 
-        Button uploadImage = findViewById(R.id.uploadImageBtn);
+        ImageButton uploadImage = findViewById(R.id.uploadImageBtn);
         uploadImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,7 +59,7 @@ public class ConfirmImages extends AppCompatActivity {
             }
         });
 
-        Button testImages = findViewById(R.id.testImagesBtn);
+        ImageButton testImages = findViewById(R.id.testImagesBtn);
         testImages.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,21 +71,24 @@ public class ConfirmImages extends AppCompatActivity {
             }
         });
     }
+    public void backBtn() {
+        Intent intent = new Intent(getBaseContext(), SeeFood.class);
+        startActivity(intent);
+    }
 
     public static List<Image> getImagesToConfirm() {
         return imagesToConfirm;
     }
 
-    public void removeImage(int position) {
+    public void removeImage(int position, ImageAdapter adapter, GridView gridView) {
         imagesToConfirm.remove(position);
-
-        Intent intent = new Intent(getBaseContext(), ConfirmImages.class);
-        startActivity(intent);
+        adapter.notifyDataSetChanged();
+        gridView.setAdapter(adapter);
     }
 
     public void testImages() throws IOException, InterruptedException, ExecutionException {
         // send images through API_Post to receive and update response
-        API_P api = new API_P(imagesToConfirm, GalleryView.getImages());
+        API_P api = new API_P(imagesToConfirm, GalleryView.getImages(), GalleryView.getGridView(), GalleryView.getImageAdapter());
         api.execute();
 
         // update database
@@ -120,5 +129,19 @@ public class ConfirmImages extends AppCompatActivity {
 
         Intent intent = new Intent(getBaseContext(), ConfirmImages.class);
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp(){
+        backBtn();
+        return true;
+    }
+
+    public void setupActionBar() {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_HOME_AS_UP);
+        getSupportActionBar().setCustomView(R.layout.actionbar);
+        TextView tv = getSupportActionBar().getCustomView().findViewById(R.id.action_bar_title);
+        tv.setText("Confirm Images");
     }
 }

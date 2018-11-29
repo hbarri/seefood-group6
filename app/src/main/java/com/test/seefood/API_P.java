@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
+import android.widget.GridView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,10 +25,15 @@ import java.util.regex.Pattern;
 public class API_P extends AsyncTask<Void, Void, Void> {
     List<Image> images;
     List<Image> imagesToConfirm;
+    GridView gridView;
+    ImageAdapter adapter;
 
-    API_P(List<Image> imagesToConfirm, List<Image> images) {
+    API_P(List<Image> imagesToConfirm, List<Image> images, GridView gridView, ImageAdapter adapter) {
         this.imagesToConfirm = imagesToConfirm;
         this.images = images;
+        this.gridView = gridView;
+        this.adapter = adapter;
+
     }
 
     @Override
@@ -129,7 +135,16 @@ public class API_P extends AsyncTask<Void, Void, Void> {
             }
         }
         images.add(newImage);
+
+        //adapter.notifyDataSetChanged();
+        //gridView.setAdapter(adapter);
     }
+
+    //@Override
+    //protected void onPostExecute(Void aVoid) {
+    //    adapter.notifyDataSetChanged();
+    //    gridView.setAdapter(adapter);
+    //}
 
     public Bitmap byteToBitmap(String bytes) {
         byte[] decodedString = Base64.decode(bytes, Base64.DEFAULT);
