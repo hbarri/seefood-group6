@@ -42,6 +42,10 @@
             android:name=".LoadingView"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity
+            android:name=".ViewImage"
+            android:theme="@style/AppTheme">
+        </activity>
     </application>
 
 </manifest>

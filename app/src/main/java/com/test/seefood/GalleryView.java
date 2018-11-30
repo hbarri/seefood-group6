@@ -38,7 +38,7 @@ public class GalleryView extends AppCompatActivity {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView parent, View view, int position, long id) {
-                imageClick(position);
+                imageClick(position, images);
             }
         });
     }
@@ -55,9 +55,10 @@ public class GalleryView extends AppCompatActivity {
         return images;
     }
 
-    public void imageClick(int position) {
+    public void imageClick(int position, List images) {
         Intent intent = new Intent(getBaseContext(), ImageInflater.class);
         intent.putExtra("position", position);
+        intent.putExtra("images", images.size());
         startActivity(intent);
     }
 

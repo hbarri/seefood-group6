@@ -30,8 +30,9 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:text=""
-        android:textSize="30sp"
+        android:textSize="40sp"
         android:textColor="@color/white"
+        android:fontFamily="sans-serif"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
         app:layout_constraintStart_toStartOf="@+id/imageView"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
@@ -47,7 +48,8 @@
         android:layout_marginRight="8dp"
         android:text=""
         android:textColor="@color/white"
-        android:textSize="30sp"
+        android:textSize="20sp"
+        android:elevation="1dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/isFood" />
@@ -57,8 +59,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
-        android:textSize="30sp"
+        android:textSize="20sp"
         android:textColor="@color/white"
+        android:elevation="1dp"
         tools:layout_editor_absoluteX="192dp"
         tools:layout_editor_absoluteY="313dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -81,10 +84,10 @@
         app:layout_constraintLeft_toLeftOf="@+id/bar"/>
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/foodPercentage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="99%"
+        android:text=""
         android:textColor="@color/white"
         android:textSize="30dp"
         android:textStyle="bold"
@@ -98,7 +101,30 @@
         android:layout_height="1dp"
         android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <ImageButton
+        android:id="@+id/next"
+        android:layout_width="45dp"
+        android:layout_height="206dp"
+        android:elevation="10dp"
+        android:src="@drawable/right"
+        android:background="@color/clear"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/imageView"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <ImageButton
+        android:id="@+id/previous"
+        android:layout_width="45dp"
+        android:layout_height="206dp"
+        android:elevation="10dp"
+        android:src="@drawable/left"
+        android:background="@color/clear"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@id/imageView"
+        app:layout_constraintVertical_bias="1.0" />
 
 </android.support.constraint.ConstraintLayout>
