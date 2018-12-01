@@ -1,5 +1,6 @@
 package com.test.seefood;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ProgressBar;
@@ -16,16 +17,15 @@ public class LoadingView extends AppCompatActivity {
     }
 
     public void initialize() {
-        // start ec2 instance
-
-        // start python server
-        //Runtime.getRuntime().exec("cmd /c start cmd.exe /K \"cd C:\\Users\\hanee_000\\Desktop && ssh -i \"4110key.pem\" ubuntu@18.188.220.241\"");
-
         // run api to get image database
-        API_O api = new API_O();
+        API_O api = new API_O("open");
         api.execute();
 
-        // run second api to parse imagesToConfirm from database and store in gallery
+        // run api to initialize AI in find_food.py
+        API_O api3 = new API_O("initialize");
+        api3.execute();
+
+        // run api to parse imagesToConfirm from database and store in gallery
         API_G api2 = new API_G(GalleryView.getImages(), getBaseContext());
         api2.execute();
     }
