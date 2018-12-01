@@ -92,7 +92,7 @@ public class ConfirmImages extends AppCompatActivity {
         api.execute();
 
         // update database
-        API_C api2 = new API_C();
+        API_O api2 = new API_O("close");
         api2.execute();
 
         // redirect to gallery
