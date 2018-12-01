@@ -20,6 +20,18 @@ import java.util.List;
 public class ImageInflater extends AppCompatActivity {
 
     int position;
+    Image image;
+
+    ImageView imageView;
+    TextView isFoodText;
+    TextView confidence;
+    TextView date;
+    TextView percentage;
+    View progress;
+    View divider;
+    ImageButton next;
+    ImageButton previous;
+    ImageView imageDisplayed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,47 +43,43 @@ public class ImageInflater extends AppCompatActivity {
 
         position = intent.getIntExtra("position", 0);
 
-        Image image = images.get(position);
+        imageView = findViewById(R.id.imageView);
+        isFoodText = findViewById(R.id.isFood);
+        confidence = findViewById(R.id.confidenceLevel);
+        date = findViewById(R.id.date);
+        percentage = findViewById(R.id.foodPercentage);
+        progress = findViewById(R.id.progress);
+        divider = findViewById(R.id.divider);
+        next = findViewById(R.id.next);
+        previous = findViewById(R.id.previous);
+        imageDisplayed = findViewById(R.id.imageView);
 
-        ImageView imageView = findViewById(R.id.imageView);
-        TextView isFoodText = findViewById(R.id.isFood);
-        TextView confidence = findViewById(R.id.confidenceLevel);
-        TextView date = findViewById(R.id.date);
-        TextView percentage = findViewById(R.id.foodPercentage);
-        final View progress = findViewById(R.id.progress);
-        View divider = findViewById(R.id.divider);
-        ImageButton next = findViewById(R.id.next);
-        ImageButton previous = findViewById(R.id.previous);
-        ImageView imageDisplayed = findViewById(R.id.imageView);
+        updateView(position, images);
+    }
+
+    public void updateView(int positiontmp, List<Image> imagestmp) {
+
+        final int position = positiontmp;
+        final List<Image> images = imagestmp;
+
+        Image image = images.get(position);
 
         //setup the action bar
         setupActionBar(image.getName());
+
+        //check the angle buttons
+        checkNextPrevious(position, images);
 
         //get phones display width to calculate percentage
         DisplayMetrics dm = new DisplayMetrics();
         this.getWindow().getWindowManager().getDefaultDisplay().getMetrics(dm);
         int width = dm.widthPixels;
 
-        if (image.getConfidenceLevel() == "25%") {
-            isFoodText.setText("Uh Oh! No Food :(");
-        } else if (image.getConfidenceLevel() == "25 - 75") {
-            isFoodText.setText("We may SeeFood?");
-        } else {
-            isFoodText.setText("Yes! We SeeFood!");
-        }
-
-        date.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                progress.setBackgroundColor(Color.parseColor("#ffffff"));
-            }
-        });
-
         progress.setBackground(setGradientColor(100 * calculatePercentage(image.getConfidenceLevel())));
 
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-        System.out.println(formatter.format(image.getDateCreated()));
 
+        isFoodText.setText(image.getIsFood());
         date.setText(formatter.format(image.getDateCreated()));
         progress.getLayoutParams().width = (int)(width * calculatePercentage(image.getConfidenceLevel()));
         divider.getLayoutParams().width = (int)(width * calculatePercentage(image.getConfidenceLevel()));
@@ -83,7 +91,7 @@ public class ImageInflater extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (position + 1 != images.size()) {
-                    switchImage(intent.getIntExtra("position", 0) + 1);
+                    updateView(position + 1, images);
                 }
             }
         });
@@ -92,7 +100,7 @@ public class ImageInflater extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (position - 1 != -1)
-                switchImage(intent.getIntExtra("position", 0) - 1);
+                    updateView(position - 1, images);
             }
         });
 
@@ -104,13 +112,19 @@ public class ImageInflater extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
 
-    public void switchImage(int position) {
-        Intent intent = new Intent(getBaseContext(), ImageInflater.class);
-        intent.putExtra("position", position);
-        startActivity(intent);
+    public void checkNextPrevious(int position, List<Image> images) {
+        if (position == 0) {
+            previous.setVisibility(View.GONE);
+        } else {
+            previous.setVisibility(View.VISIBLE);
+        }
+        if (position == images.size() - 1) {
+            next.setVisibility(View.GONE);
+        } else {
+            next.setVisibility(View.VISIBLE);
+        }
     }
 
     public void backBtn() {
