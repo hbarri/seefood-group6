@@ -18,6 +18,7 @@ public class GalleryView extends AppCompatActivity {
     private static List<Image> images = new ArrayList<>();
     private static GridView gridView;
     private static ImageAdapter imageAdapter;
+    private boolean editMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,10 +36,16 @@ public class GalleryView extends AppCompatActivity {
         imageAdapter = new ImageAdapter(this, images, false);
         gridView.setAdapter(imageAdapter);
 
+        // imageAdapter.setLayout(true);
+
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView parent, View view, int position, long id) {
-                imageClick(position, images);
+                if (editMode) {
+                    removeImage();
+                } else {
+                    imageClick(position, images);
+                }
             }
         });
     }
@@ -53,6 +60,10 @@ public class GalleryView extends AppCompatActivity {
 
     public static List<Image> getImages() {
         return images;
+    }
+
+    public void removeImage() {
+
     }
 
     public void imageClick(int position, List images) {

@@ -25,6 +25,10 @@ public class ImageAdapter extends BaseAdapter {
         this.layout = layout;
     }
 
+    public void setLayout(boolean bool) {
+        layout = bool;
+    }
+
     @Override
     public int getCount() {
         return images.size();
