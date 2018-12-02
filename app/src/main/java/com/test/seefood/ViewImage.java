@@ -11,6 +11,8 @@ import java.util.List;
 
 public class ViewImage extends AppCompatActivity {
 
+    int position;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,7 +20,10 @@ public class ViewImage extends AppCompatActivity {
 
         final List<Image> images = GalleryView.getImages();
         final Intent intent = getIntent();
-        Image image = images.get(intent.getIntExtra("position", 0));
+
+        position = intent.getIntExtra("position", 0);
+
+        Image image = images.get(position);
 
         setupActionBar(image.getName());
 
@@ -28,6 +33,7 @@ public class ViewImage extends AppCompatActivity {
     }
     public void backBtn() {
         Intent intent = new Intent(getBaseContext(), ImageInflater.class);
+        intent.putExtra("position", position);
         startActivity(intent);
     }
 

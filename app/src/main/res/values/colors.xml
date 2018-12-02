@@ -7,6 +7,7 @@
     <color name="appThemeLight">#65bc8d</color>
     <color name="darkTheme">#606060</color>
     <color name="lightBackground">#8e8e8e</color>
+    <color name="lightText">#e6e6e6</color>
     <color name="white">#f9f9f9</color>
     <color name="black">#000000</color>
     <color name="green">#3bcc4e</color>

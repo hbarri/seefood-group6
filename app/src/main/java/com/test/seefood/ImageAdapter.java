@@ -18,6 +18,7 @@ public class ImageAdapter extends BaseAdapter {
     private Context context;
     private List<Image> images = new ArrayList();
     private boolean layout;
+    ImageView deleteIcon;
 
     public ImageAdapter(Context context, List<Image> bitmaps, boolean layout) {
         this.context = context;
@@ -27,6 +28,11 @@ public class ImageAdapter extends BaseAdapter {
 
     public void setLayout(boolean bool) {
         layout = bool;
+        deleteIcon.setAlpha(layout ? 255 : 0);
+    }
+
+    public boolean getLayout() {
+        return layout;
     }
 
     @Override
@@ -54,7 +60,7 @@ public class ImageAdapter extends BaseAdapter {
         }
 
         final ImageView imageView = convertView.findViewById(R.id.imageCover);
-        final ImageView deleteIcon = convertView.findViewById(R.id.deleteImg);
+        deleteIcon = convertView.findViewById(R.id.deleteImg);
         final TextView title = convertView.findViewById(R.id.title);
 
         imageView.setImageBitmap(image.getImage());

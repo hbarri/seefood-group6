@@ -93,4 +93,27 @@
     <string name="title_activity_gallery_view">GalleryView</string>
     <string name="title_activity_image_inflater">ImageInflater</string>
     <string name="title_activity_confirm_images">ConfirmImages</string>
+    <string name="help_intro">
+        SeeFood is a web based application that helps anyone determine whether or not they are
+        looking at food. The user can CAPTURE an image or UPLOAD a photo from their gallery and
+        send it to a web server to be tested for food validity.  The user may also select GALLERY
+        to view any previously selected photos.
+    </string>
+    <string name="help_options">
+        Capture:\n
+        - Click the capture button.\n
+        - Take photo of suspect in question.\n
+        - Click the eye button to test.\n
+        Upload:\n
+        - Click the upload button.\n
+        - upload photo of suspect in question.\n
+        - Click the eye button to test.\n
+        Gallery:\n
+        - Click the gallery Button.\n
+        - Gaze upon previously tested images.\n
+        - Click an image to see test results.
+    </string>
+    <string name="copyright">
+        Copyright Team America 2018
+    </string>
 </resources>
