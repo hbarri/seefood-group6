@@ -20,6 +20,7 @@ public class GalleryView extends AppCompatActivity {
     private static List<Image> images = new ArrayList<>();
     private static GridView gridView;
     private static ImageAdapter imageAdapter;
+    ImageView edit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +29,6 @@ public class GalleryView extends AppCompatActivity {
 
         //Format and setup the action bar
         setupActionBar(true);
-
-        ImageView edit = findViewById(R.id.edit);
 
         // reset list of imagesToConfirm selected
         ConfirmImages.imagesToConfirm = new ArrayList<>();
@@ -49,16 +48,6 @@ public class GalleryView extends AppCompatActivity {
                 } else {
                     imageClick(position, images);
                 }
-            }
-        });
-
-        edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                imageAdapter.setLayout(true);
-                imageAdapter.notifyDataSetChanged();
-                gridView.setAdapter(imageAdapter);
-                setupActionBar(false);
             }
         });
     }
@@ -113,8 +102,18 @@ public class GalleryView extends AppCompatActivity {
             getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_HOME_AS_UP);
             getSupportActionBar().setCustomView(R.layout.galleryview_actionbar);
             TextView tv = getSupportActionBar().getCustomView().findViewById(R.id.action_bar_title);
+            edit = findViewById(R.id.edit);
             tv.setText("Gallery");
             tv.setPadding(0, 0, 175, 0);
+            edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    imageAdapter.setLayout(true);
+                    imageAdapter.notifyDataSetChanged();
+                    gridView.setAdapter(imageAdapter);
+                    setupActionBar(false);
+                }
+            });
         } else {
             getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
             getSupportActionBar().setCustomView(R.layout.galleryview_edit_actionbar);
