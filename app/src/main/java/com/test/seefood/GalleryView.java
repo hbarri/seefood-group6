@@ -13,6 +13,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,10 +56,31 @@ public class GalleryView extends AppCompatActivity {
 
     public void removeImage(int position, ImageAdapter adapter, GridView gridView) {
 
-        // here we would remove from database not just the local list
+        int id = images.get(position).getId();
+
         images.remove(position);
         adapter.notifyDataSetChanged();
         gridView.setAdapter(adapter);
+
+        try {
+            // set url to ec2 server
+            String urlSt = "http://18.188.220.241:5000/api/images/" + id;
+            URL url2 = new URL(urlSt);
+
+            // 1. create HttpURLConnection
+            HttpURLConnection conn2 = (HttpURLConnection) url2.openConnection();
+            conn2.setRequestMethod("DELETE");
+            conn2.setDoOutput(true);
+            conn2.setRequestProperty("Content-Type", "application/json; charset=utf-8");
+
+            // 4. make POST request to the given URL
+            conn2.connect();
+            conn2.getResponseMessage();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void updateGrid() {

@@ -17,7 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ImageInflater extends AppCompatActivity {
+public class ImageInflater extends AppCompatActivity implements editNameDialog.BottomSheetListener {
 
     int position;
     Image image;
@@ -62,7 +62,7 @@ public class ImageInflater extends AppCompatActivity {
         final int position = positiontmp;
         final List<Image> images = imagestmp;
 
-        Image image = images.get(position);
+        image = images.get(position);
 
         //setup the action bar
         setupActionBar(image.getName());
@@ -132,6 +132,10 @@ public class ImageInflater extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public String getName() {
+        return image.getName();
+    }
+
     public double calculatePercentage(String s) {
         double returnVal;
         String[] nums;
@@ -185,14 +189,28 @@ public class ImageInflater extends AppCompatActivity {
     public void setupActionBar(String name) {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_HOME_AS_UP);
-        getSupportActionBar().setCustomView(R.layout.actionbar);
+        getSupportActionBar().setCustomView(R.layout.imageinflator_actionbar);
         TextView tv = getSupportActionBar().getCustomView().findViewById(R.id.action_bar_title);
+        ImageView edit = getSupportActionBar().getCustomView().findViewById(R.id.edit);
         tv.setText(name);
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editNameDialog bottomSheet = new editNameDialog();
+                bottomSheet.show(getSupportFragmentManager(), "exampleBottomSheet");
+            }
+        });
     }
 
     @Override
     public boolean onSupportNavigateUp(){
         backBtn();
         return true;
+    }
+
+    @Override
+    public void onButtonClicked(String text) {
+        System.out.print("awefawefawefawefawefawef-----------------------------------------");
+        image.setName(text);
     }
 }
