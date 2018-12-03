@@ -81,11 +81,9 @@ public class GalleryView extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
-        // run api to get image database
+        // run api to update image database
         API_O api = new API_O("close");
         api.execute();
-
     }
 
     public void updateGrid() {
