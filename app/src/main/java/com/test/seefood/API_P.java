@@ -140,11 +140,13 @@ public class API_P extends AsyncTask<Void, Void, Void> {
         //gridView.setAdapter(adapter);
     }
 
-    //@Override
-    //protected void onPostExecute(Void aVoid) {
-    //    adapter.notifyDataSetChanged();
-    //    gridView.setAdapter(adapter);
-    //}
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        Log.d("CREATION", "refreshing gallery view grid");
+        // refresh gridView
+        adapter.notifyDataSetChanged();
+        gridView.setAdapter(adapter);
+    }
 
     public Bitmap byteToBitmap(String bytes) {
         byte[] decodedString = Base64.decode(bytes, Base64.DEFAULT);

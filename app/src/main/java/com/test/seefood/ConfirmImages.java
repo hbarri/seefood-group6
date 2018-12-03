@@ -82,6 +82,8 @@ public class ConfirmImages extends AppCompatActivity {
 
     public void removeImage(int position, ImageAdapter adapter, GridView gridView) {
         imagesToConfirm.remove(position);
+
+        // refresh gridView
         adapter.notifyDataSetChanged();
         gridView.setAdapter(adapter);
     }
