@@ -19,6 +19,7 @@ public class ImageAdapter extends BaseAdapter {
     private List<Image> images = new ArrayList();
     private boolean layout;
     ImageView deleteIcon;
+    boolean fav = false;
 
     public ImageAdapter(Context context, List<Image> bitmaps, boolean layout) {
         this.context = context;
@@ -62,10 +63,19 @@ public class ImageAdapter extends BaseAdapter {
         final ImageView imageView = convertView.findViewById(R.id.imageCover);
         deleteIcon = convertView.findViewById(R.id.deleteImg);
         final TextView title = convertView.findViewById(R.id.title);
+        final ImageView favorite = convertView.findViewById(R.id.favorite);
 
         imageView.setImageBitmap(image.getImage());
         title.setText(image.getName());
         deleteIcon.setAlpha(layout ? 255 : 0);
+
+        favorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (fav == false) {
+                }
+            }
+        });
 
         return convertView;
     }

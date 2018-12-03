@@ -18,11 +18,11 @@ public class LoadingView extends AppCompatActivity {
 
     public void initialize() {
         // run api to get image database
-        API_O api = new API_O("open");
+        API_O api = new API_O("open", "GET");
         api.execute();
 
         // run api to initialize AI in find_food.py
-        API_O api3 = new API_O("initialize");
+        API_O api3 = new API_O("initialize", "GET");
         api3.execute();
 
         // run api to parse imagesToConfirm from database and store in gallery

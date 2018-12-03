@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -62,27 +63,12 @@ public class GalleryView extends AppCompatActivity {
         adapter.notifyDataSetChanged();
         gridView.setAdapter(adapter);
 
-        try {
-            // set url to ec2 server
-            String urlSt = "http://18.188.220.241:5000/api/images/" + id;
-            URL url2 = new URL(urlSt);
-
-            // 1. create HttpURLConnection
-            HttpURLConnection conn2 = (HttpURLConnection) url2.openConnection();
-            conn2.setRequestMethod("DELETE");
-            conn2.setDoOutput(true);
-            conn2.setRequestProperty("Content-Type", "application/json; charset=utf-8");
-
-            // 4. make POST request to the given URL
-            conn2.connect();
-            conn2.getResponseMessage();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        // run api to update image database
+        API_O api2 = new API_O("images/" + id, "DELETE");
+        api2.execute();
 
         // run api to update image database
-        API_O api = new API_O("close");
+        API_O api = new API_O("close", "GET");
         api.execute();
     }
 

@@ -20,9 +20,11 @@ public class
 
 API_O extends AsyncTask<Void, Void, Void> {
     String cmd;
+    String request;
 
-    API_O(String cmd) {
+    API_O(String cmd, String request) {
         this.cmd = cmd;
+        this.request = request;
     }
 
     @Override
@@ -33,7 +35,7 @@ API_O extends AsyncTask<Void, Void, Void> {
             URL url2 = new URL(urlSt);
 
             HttpURLConnection conn3 = (HttpURLConnection) url2.openConnection();
-            conn3.setRequestMethod("GET");
+            conn3.setRequestMethod(request);
             conn3.setRequestProperty("Content-Type", "application/json; charset=utf-8");
 
             //conn3.connect();
