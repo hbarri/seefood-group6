@@ -26,7 +26,11 @@ public class LoadingView extends AppCompatActivity {
         api3.execute();
 
         // run api to parse imagesToConfirm from database and store in gallery
-        API_G api2 = new API_G(GalleryView.getImages(), getBaseContext());
-        api2.execute();
+        //API_G api2 = new API_G(GalleryView.getImages(), getBaseContext());
+        //api2.execute();
+
+        Intent intent = new Intent(getBaseContext(), SeeFood.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 }

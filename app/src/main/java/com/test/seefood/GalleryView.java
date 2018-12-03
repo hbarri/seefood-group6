@@ -86,7 +86,7 @@ public class GalleryView extends AppCompatActivity {
         api.execute();
     }
 
-    public void updateGrid() {
+    public static void updateGrid() {
         imageAdapter.notifyDataSetChanged();
         gridView.setAdapter(imageAdapter);
     }
