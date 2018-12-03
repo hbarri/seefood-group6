@@ -24,7 +24,6 @@ public class ImageInflater extends AppCompatActivity implements editNameDialog.B
 
     ImageView imageView;
     TextView isFoodText;
-    TextView confidence;
     TextView date;
     TextView percentage;
     View progress;
@@ -32,6 +31,7 @@ public class ImageInflater extends AppCompatActivity implements editNameDialog.B
     ImageButton next;
     ImageButton previous;
     ImageView imageDisplayed;
+    ImageView favorite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,6 @@ public class ImageInflater extends AppCompatActivity implements editNameDialog.B
 
         imageView = findViewById(R.id.imageView);
         isFoodText = findViewById(R.id.isFood);
-        confidence = findViewById(R.id.confidenceLevel);
         date = findViewById(R.id.date);
         percentage = findViewById(R.id.foodPercentage);
         progress = findViewById(R.id.progress);
@@ -53,6 +52,7 @@ public class ImageInflater extends AppCompatActivity implements editNameDialog.B
         next = findViewById(R.id.next);
         previous = findViewById(R.id.previous);
         imageDisplayed = findViewById(R.id.imageView);
+        favorite = findViewById(R.id.favorite);
 
         updateView(position, images);
     }
@@ -84,8 +84,26 @@ public class ImageInflater extends AppCompatActivity implements editNameDialog.B
         progress.getLayoutParams().width = (int)(width * calculatePercentage(image.getConfidenceLevel()));
         divider.getLayoutParams().width = (int)(width * calculatePercentage(image.getConfidenceLevel()));
         imageView.setImageBitmap(image.getImage());
-        confidence.setText(image.getConfidenceLevel());
         percentage.setText(Integer.toString((int)(100 * calculatePercentage(image.getConfidenceLevel()))) + "%");
+
+        favorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (image.getisFavorite()) {
+                    favorite.setImageResource(R.drawable.like_disabled);
+                    image.setIsFavorite(false);
+                } else {
+                    favorite.setImageResource(R.drawable.like_enabled);
+                    image.setIsFavorite(true);
+                }
+            }
+        });
+
+        if (image.getisFavorite() == true) {
+            favorite.setImageResource(R.drawable.like_enabled);
+        } else {
+            favorite.setImageResource(R.drawable.like_disabled);
+        }
 
         next.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -193,6 +211,7 @@ public class ImageInflater extends AppCompatActivity implements editNameDialog.B
         TextView tv = getSupportActionBar().getCustomView().findViewById(R.id.action_bar_title);
         ImageView edit = getSupportActionBar().getCustomView().findViewById(R.id.edit);
         tv.setText(name);
+        tv.setPadding(0, 0, 150, 0);
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -210,7 +229,11 @@ public class ImageInflater extends AppCompatActivity implements editNameDialog.B
 
     @Override
     public void onButtonClicked(String text) {
-        System.out.print("awefawefawefawefawefawef-----------------------------------------");
         image.setName(text);
+        setupActionBar(text);
+
+        // run api to update image database
+        API_O api2 = new API_O("images/" + image.getId(), "PUT");
+        api2.execute();
     }
 }

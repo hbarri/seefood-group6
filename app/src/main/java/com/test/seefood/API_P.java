@@ -133,6 +133,11 @@ public class API_P extends AsyncTask<Void, Void, Void> {
                 substring = substring.replaceAll("[}]", "");
                 newImage.setIsFood(Boolean.parseBoolean(substring));
             }
+            if (substring1.equals("isFavorite")) {
+                String[] moreSubstrings = moreTokens[j].split(Pattern.quote(":"));
+                substring = moreSubstrings[1];
+                newImage.setIsFavorite(Boolean.parseBoolean(substring));
+            }
         }
         images.add(newImage);
     }

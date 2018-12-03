@@ -10,6 +10,7 @@ public class Image {
     private Bitmap image;
     private String name;
     private boolean isFood;
+    private boolean isFavorite;
     private String confidenceLevel;
 
     public Image createImage(Bitmap bitmap) {
@@ -23,6 +24,10 @@ public class Image {
     public void formatPic() {
         //format pic to AI standards before sending it to the AI
         //return image
+    }
+
+    public boolean getisFavorite() {
+        return isFavorite;
     }
 
     public Bitmap getImage() {
@@ -48,6 +53,10 @@ public class Image {
     public String getIsFood() {
         if (isFood) return "I SEE FOOD";
         else return "NO FOOD";
+    }
+
+    public void setIsFavorite(boolean favorite) {
+        this.isFavorite = favorite;
     }
 
     public void setImage(Bitmap image) {

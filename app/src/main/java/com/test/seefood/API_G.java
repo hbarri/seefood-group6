@@ -106,6 +106,11 @@ public class API_G extends AsyncTask<Void, Void, Void> {
                     substring = moreSubstrings[1];
                     newImage.setIsFood(Boolean.parseBoolean(substring));
                 }
+                if (substring1.equals("isFavorite")) {
+                    String[] moreSubstrings = moreTokens[j].split(Pattern.quote(":"));
+                    substring = moreSubstrings[1];
+                    newImage.setIsFavorite(Boolean.parseBoolean(substring));
+                }
             }
             images.add(newImage);
         }

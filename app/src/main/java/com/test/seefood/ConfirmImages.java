@@ -33,7 +33,7 @@ public class ConfirmImages extends AppCompatActivity {
         setupActionBar();
 
         final GridView gridView = findViewById(R.id.gridView);
-        final ImageAdapter imageAdapter = new ImageAdapter(this, imagesToConfirm, true);
+        final ImageAdapter imageAdapter = new ImageAdapter(this, imagesToConfirm, true, false);
         gridView.setAdapter(imageAdapter);
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

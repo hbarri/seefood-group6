@@ -24,6 +24,8 @@ public class GalleryView extends AppCompatActivity {
     private static GridView gridView;
     private static ImageAdapter imageAdapter;
     ImageView edit;
+    ImageView showFav;
+    private boolean favorites = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +40,7 @@ public class GalleryView extends AppCompatActivity {
 
         // finds gridView to populate with list of images sent from the cloud
         gridView = findViewById(R.id.gridView);
-        imageAdapter = new ImageAdapter(this, images, false);
+        imageAdapter = new ImageAdapter(this, images, false, true);
         gridView.setAdapter(imageAdapter);
 
         // imageAdapter.setLayout(true);
@@ -75,6 +77,21 @@ public class GalleryView extends AppCompatActivity {
     public static void updateGrid() {
         imageAdapter.notifyDataSetChanged();
         gridView.setAdapter(imageAdapter);
+    }
+
+    public void updateView() {
+        if (!favorites) {
+            imageAdapter.setImages(images);
+        } else {
+            List<Image> tmpImages = new ArrayList<Image>();
+            for (int i = 0; i < images.size(); i++) {
+                if (images.get(i).getisFavorite() == true) {
+                    tmpImages.add(images.get(i));
+                }
+            }
+            imageAdapter.setImages(tmpImages);
+        }
+        updateGrid();
     }
 
     public static ImageAdapter getImageAdapter() {
@@ -115,8 +132,12 @@ public class GalleryView extends AppCompatActivity {
             getSupportActionBar().setCustomView(R.layout.galleryview_actionbar);
             TextView tv = getSupportActionBar().getCustomView().findViewById(R.id.action_bar_title);
             edit = findViewById(R.id.edit);
+            showFav = findViewById(R.id.favorite);
             tv.setText("Gallery");
             tv.setPadding(0, 0, 175, 0);
+
+            showFav.setImageResource(R.drawable.like_disabled);
+
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -126,6 +147,21 @@ public class GalleryView extends AppCompatActivity {
                     setupActionBar(false);
                 }
             });
+            showFav.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (favorites) {
+                        showFav.setImageResource(R.drawable.like_disabled);
+                        favorites = false;
+                        updateView();
+                    } else {
+                        showFav.setImageResource(R.drawable.like_enabled);
+                        favorites = true;
+                        updateView();
+                    }
+                }
+            });
+
         } else {
             getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
             getSupportActionBar().setCustomView(R.layout.galleryview_edit_actionbar);

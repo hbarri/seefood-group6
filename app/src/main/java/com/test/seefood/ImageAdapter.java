@@ -18,13 +18,20 @@ public class ImageAdapter extends BaseAdapter {
     private Context context;
     private List<Image> images = new ArrayList();
     private boolean layout;
+    private boolean fav = false;
+    private boolean showFav = false;
     ImageView deleteIcon;
-    boolean fav = false;
 
-    public ImageAdapter(Context context, List<Image> bitmaps, boolean layout) {
+
+    public ImageAdapter(Context context, List<Image> bitmaps, boolean layout, boolean showFav) {
         this.context = context;
         this.images = bitmaps;
         this.layout = layout;
+        this.showFav = showFav;
+    }
+
+    public void setImages(List<Image> images) {
+        this.images = images;
     }
 
     public void setLayout(boolean bool) {
@@ -65,14 +72,26 @@ public class ImageAdapter extends BaseAdapter {
         final TextView title = convertView.findViewById(R.id.title);
         final ImageView favorite = convertView.findViewById(R.id.favorite);
 
+        if (image.getisFavorite()) {
+            favorite.setImageResource(R.drawable.like_enabled);
+        } else {
+            favorite.setImageResource(R.drawable.like_disabled);
+        }
+
         imageView.setImageBitmap(image.getImage());
         title.setText(image.getName());
         deleteIcon.setAlpha(layout ? 255 : 0);
+        favorite.setAlpha(showFav ? 255 : 0);
 
         favorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (fav == false) {
+                    favorite.setImageResource(R.drawable.like_enabled);
+                    image.setIsFavorite(true);
+                } else {
+                    favorite.setImageResource(R.drawable.like_disabled);
+                    image.setIsFavorite(false);
                 }
             }
         });
