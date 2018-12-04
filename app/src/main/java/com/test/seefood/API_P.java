@@ -4,16 +4,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Base64;
-import android.util.Log;
 import android.widget.GridView;
-
-import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -25,19 +20,25 @@ import java.util.regex.Pattern;
 public class API_P extends AsyncTask<Void, Void, Void> {
     List<Image> images;
     List<Image> imagesToConfirm;
-    GridView gridView;
-    ImageAdapter adapter;
 
-    API_P(List<Image> imagesToConfirm, List<Image> images, GridView gridView, ImageAdapter adapter) {
+    /**
+     * constructor to send images from confirmImages view to server and gets AI response
+     * @param imagesToConfirm
+     * @param images
+     */
+    API_P(List<Image> imagesToConfirm, List<Image> images) {
         this.imagesToConfirm = imagesToConfirm;
         this.images = images;
-        this.gridView = gridView;
-        this.adapter = adapter;
-
     }
 
+    /**
+     * AsyncTask to set connection with server
+     * @param Void
+     * @return
+     */
     @Override
     protected Void doInBackground(Void... Void) {
+        // gets bitmap of each image to test and sends it to server for testing
         for (int i = 0; i < imagesToConfirm.size(); i++) {
             Bitmap bm = imagesToConfirm.get(i).getImage();
             sendImage(bm);
@@ -46,6 +47,10 @@ public class API_P extends AsyncTask<Void, Void, Void> {
         return null;
     }
 
+    /**
+     * sends image to server to test with AI
+     * @param bitmap
+     */
     public void sendImage(Bitmap bitmap) {
         // receive imagesToConfirm and convert to byte array output stream
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -76,6 +81,7 @@ public class API_P extends AsyncTask<Void, Void, Void> {
             writer.close();
             os.close();
 
+            // gets response from AI
             BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
 
             String line;
@@ -83,30 +89,39 @@ public class API_P extends AsyncTask<Void, Void, Void> {
                 output += line;
             }
 
-            // make POST request to the given URL
-            //conn.connect();
+            // gets response and disconnects
             conn.getResponseMessage();
             conn.disconnect();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
 
+        // parses response returned from AI
         parseList(output);
     }
 
+    /**
+     * parses response from server and stores in images list
+     * @param toParse
+     */
     public void parseList(String toParse) {
+        // splits tokens of images
         String[] tokens = toParse.split(Pattern.quote("{"));
 
+        // creates new image
         Image newImage = new Image();
         String[] moreTokens = tokens[2].split(Pattern.quote(","));
 
+        // runs through each state in each image
         for (int j = 0; j < moreTokens.length; j++) {
+            // splits heading from information
             String[] moreSubstrings1 = moreTokens[j].split(Pattern.quote(":"));
             String substring1 = moreSubstrings1[0];
             substring1 = substring1.replaceAll("[{\"]", "");
 
             String substring;
-
+            // checks which field it should be stored as and stores that in
+            // the image created
             if (substring1.equals("byte")) {
                 String[] moreSubstrings = moreTokens[j].split(Pattern.quote(":"));
                 substring = moreSubstrings[1];
@@ -139,15 +154,25 @@ public class API_P extends AsyncTask<Void, Void, Void> {
                 newImage.setIsFavorite(Boolean.parseBoolean(substring));
             }
         }
+        // adds image tested to images list
         images.add(newImage);
     }
 
+    /**
+     * updates gridview to reflect new tested image
+     * @param aVoid
+     */
     @Override
     protected void onPostExecute(Void aVoid) {
         // refresh gridView
         GalleryView.updateGrid();
     }
 
+    /**
+     * converts string to bitmap image
+     * @param bytes
+     * @return
+     */
     public Bitmap byteToBitmap(String bytes) {
         byte[] decodedString = Base64.decode(bytes, Base64.DEFAULT);
         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);

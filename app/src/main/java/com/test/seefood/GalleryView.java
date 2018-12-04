@@ -4,18 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,45 +21,55 @@ public class GalleryView extends AppCompatActivity {
     ImageView showFav;
     private boolean favorites = false;
 
+    /**
+     * onCreate method called on acitivty start up
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gallery_view);
 
-        //Format and setup the action bar
+        // format and setup the action bar
         setupActionBar(true);
 
         // reset list of imagesToConfirm selected
         ConfirmImages.imagesToConfirm = new ArrayList<>();
 
-        // finds gridView to populate with list of images sent from the cloud
+        // finds gridView to populate with list of images
         gridView = findViewById(R.id.gridView);
         imageAdapter = new ImageAdapter(this, images, false, true);
         gridView.setAdapter(imageAdapter);
 
-        // imageAdapter.setLayout(true);
-
+        // listener to either remove image from gallery or inflate image
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView parent, View view, int position, long id) {
                 if (imageAdapter.getLayout() == true) {
-                    removeImage(position, imageAdapter, gridView);
+                    // removes image from gallery
+                    removeImage(position);
                 } else {
+                    // inflates image
                     imageClick(position, images);
                 }
             }
         });
     }
 
-    public void removeImage(int position, ImageAdapter adapter, GridView gridView) {
-
+    /**
+     * removes image from gallery
+     * @param position
+     */
+    public void removeImage(int position) {
+        // recieves image id
         int id = images.get(position).getId();
 
+        // removes image from list
         images.remove(position);
-        adapter.notifyDataSetChanged();
-        gridView.setAdapter(adapter);
+        // updates grid
+        updateGrid();
 
-        // run api to update image database
+        // run api to delete image from database
         API_O api2 = new API_O("images/" + id, "DELETE");
         api2.execute();
 
@@ -74,56 +78,87 @@ public class GalleryView extends AppCompatActivity {
         api.execute();
     }
 
+    /**
+     * updates gridview
+     */
     public static void updateGrid() {
         imageAdapter.notifyDataSetChanged();
         gridView.setAdapter(imageAdapter);
     }
 
+    /**
+     * updates view based on favorites picked
+     */
     public void updateView() {
+        // if favorites option is not chosen, all images will be displayed
         if (!favorites) {
             imageAdapter.setImages(images);
         } else {
+            // else, only images favorited will be displayed
             List<Image> tmpImages = new ArrayList<Image>();
             for (int i = 0; i < images.size(); i++) {
                 if (images.get(i).getisFavorite() == true) {
                     tmpImages.add(images.get(i));
                 }
             }
+            // sets adapter with favorite images
             imageAdapter.setImages(tmpImages);
         }
+        // updates grid
         updateGrid();
     }
 
-    public static ImageAdapter getImageAdapter() {
-        return imageAdapter;
-    }
-
+    /**
+     * retrieves gridview
+     * @return
+     */
     public static GridView getGridView() {
         return gridView;
     }
 
+    /**
+     * retrieves list of images
+     * @return
+     */
     public static List<Image> getImages() {
         return images;
     }
 
+    /**
+     * image inflator
+     * @param position
+     * @param images
+     */
     public void imageClick(int position, List images) {
+        // inflates image clicked on by switching activities
         Intent intent = new Intent(getBaseContext(), ImageInflater.class);
         intent.putExtra("position", position);
         intent.putExtra("images", images.size());
         startActivity(intent);
     }
 
+    /**
+     * back button
+     */
     public void backBtn() {
         Intent intent = new Intent(getBaseContext(), SeeFood.class);
         startActivity(intent);
     }
 
+    /**
+     * bar to set up back button
+     * @return
+     */
     @Override
     public boolean onSupportNavigateUp(){
         backBtn();
         return true;
     }
 
+    /**
+     * sets up action bar
+     * @param toggle
+     */
     public void setupActionBar(boolean toggle) {
 
         if (toggle == true) {

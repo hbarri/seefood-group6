@@ -95,22 +95,30 @@
     <string name="title_activity_confirm_images">ConfirmImages</string>
     <string name="help_intro">
         SeeFood is a web based application that helps anyone determine whether or not they are
-        looking at food. The user can CAPTURE an image or UPLOAD a photo from their gallery and
-        send it to a web server to be tested for food validity.  The user may also select GALLERY
-        to view any previously selected photos.
+        looking at food. The user can CAPTURE images or UPLOAD photos from their gallery and
+        send to the web server where the AI is hosted to be tested for food validity. The
+        user may also select GALLERY to view any previously selected photos. The confidence
+        interval displayed reflects the AI's confidence in it's response. The user may also remove
+        previously tested images they no longer wish to see and/or favorite images they
+        particularly like.
     </string>
     <string name="help_options">
         Capture:\n
         - Click the capture button.\n
-        - Take photo of suspect in question.\n
-        - Click the eye button to test.\n\n
+        - Take photo(s) of suspect in question.\n
+        - Click the eye button to test.\n
+        - Click image(s) to view response.\n\n
         Upload:\n
         - Click the upload button.\n
-        - upload photo of suspect in question.\n
-        - Click the eye button to test.\n\n
+        - upload photo(s) of suspect in question.\n
+        - Click the eye button to test.\n
+        - Click image(s) to view response.\n\n
         Gallery:\n
         - Click the gallery Button.\n
         - Gaze upon previously tested images.\n
+        - Delete unneeded images.\n
+        - Heart your favorite images.\n
+        - Filter based on favorites.\n
         - Click an image to see test results.\n
     </string>
     <string name="copyright">

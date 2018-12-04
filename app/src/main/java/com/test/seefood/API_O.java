@@ -1,32 +1,29 @@
 package com.test.seefood;
 
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.util.Base64;
-import android.widget.GridView;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.List;
-import java.util.regex.Pattern;
 
-public class
-
-
-API_O extends AsyncTask<Void, Void, Void> {
+public class API_O extends AsyncTask<Void, Void, Void> {
     String cmd;
     String request;
 
+    /**
+     * constructor to store command to run with request
+     * opens connection with server
+     * @param cmd
+     * @param request
+     */
     API_O(String cmd, String request) {
         this.cmd = cmd;
         this.request = request;
     }
 
+    /**
+     * AsyncTask to set connection with server
+     * @param Void
+     * @return
+     */
     @Override
     protected Void doInBackground(Void... Void) {
         try {
@@ -34,11 +31,12 @@ API_O extends AsyncTask<Void, Void, Void> {
             String urlSt = "http://18.188.220.241:5000/api/" + cmd;
             URL url2 = new URL(urlSt);
 
+            // connects to server
             HttpURLConnection conn3 = (HttpURLConnection) url2.openConnection();
             conn3.setRequestMethod(request);
             conn3.setRequestProperty("Content-Type", "application/json; charset=utf-8");
 
-            //conn3.connect();
+            // gets response and disconnects
             conn3.getResponseMessage();
             conn3.disconnect();
         } catch (Exception e) {

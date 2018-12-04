@@ -8,11 +8,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +19,6 @@ public class ImageInflater extends AppCompatActivity implements editNameDialog.B
 
     int position;
     Image image;
-
     ImageView imageView;
     TextView isFoodText;
     TextView date;
@@ -232,7 +229,7 @@ public class ImageInflater extends AppCompatActivity implements editNameDialog.B
         image.setName(text);
         setupActionBar(text);
 
-        // run api to update image database
+        // run api to update database with new name
         API_O api2 = new API_O("images/" + image.getId(), "PUT");
         api2.execute();
     }
