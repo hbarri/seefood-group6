@@ -39,6 +39,7 @@ public class ConfirmImages extends AppCompatActivity {
         // creates gridview of images selected
         final GridView gridView = findViewById(R.id.gridView);
         final ImageAdapter imageAdapter = new ImageAdapter(this, imagesToConfirm, true, false);
+
         // attaches adapter
         gridView.setAdapter(imageAdapter);
 

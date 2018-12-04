@@ -30,6 +30,10 @@ public class ImageInflater extends AppCompatActivity implements editNameDialog.B
     ImageView imageDisplayed;
     ImageView favorite;
 
+    /**
+     * onCreate method called on activity start up
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +58,10 @@ public class ImageInflater extends AppCompatActivity implements editNameDialog.B
         updateView(position, images);
     }
 
+    /**
+     * Update the image inflater to always show the current state.
+     * @param positiontmp, imagestmp
+     */
     public void updateView(int positiontmp, List<Image> imagestmp) {
 
         final int position = positiontmp;
@@ -83,6 +91,7 @@ public class ImageInflater extends AppCompatActivity implements editNameDialog.B
         imageView.setImageBitmap(image.getImage());
         percentage.setText(Integer.toString((int)(100 * calculatePercentage(image.getConfidenceLevel()))) + "%");
 
+        //show or hide the favorite icon on click
         favorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,12 +105,14 @@ public class ImageInflater extends AppCompatActivity implements editNameDialog.B
             }
         });
 
+        //set the current state of the favorite icon
         if (image.getisFavorite() == true) {
             favorite.setImageResource(R.drawable.like_enabled);
         } else {
             favorite.setImageResource(R.drawable.like_disabled);
         }
 
+        //load the next image in the gallery view
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,6 +122,7 @@ public class ImageInflater extends AppCompatActivity implements editNameDialog.B
             }
         });
 
+        //load the previous image in the gallery view
         previous.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,6 +131,7 @@ public class ImageInflater extends AppCompatActivity implements editNameDialog.B
             }
         });
 
+        //blow up the image for the user to see when clicked
         imageDisplayed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -129,6 +142,10 @@ public class ImageInflater extends AppCompatActivity implements editNameDialog.B
         });
     }
 
+    /**
+     * check to see if the next or previous buttons should be shown to the user
+     * @param position, images
+     */
     public void checkNextPrevious(int position, List<Image> images) {
         if (position == 0) {
             previous.setVisibility(View.GONE);
@@ -142,15 +159,27 @@ public class ImageInflater extends AppCompatActivity implements editNameDialog.B
         }
     }
 
+    /**
+     * return to the gallery view
+     */
     public void backBtn() {
         Intent intent = new Intent(getBaseContext(), GalleryView.class);
         startActivity(intent);
     }
 
+    /**
+     * return the name of the image
+     * @return  name
+     */
     public String getName() {
         return image.getName();
     }
 
+    /**
+     * Calculate the percentage of confidence the AI has on the image
+     * @param s
+     * @return percentage
+     */
     public double calculatePercentage(String s) {
         double returnVal;
         String[] nums;
@@ -179,6 +208,11 @@ public class ImageInflater extends AppCompatActivity implements editNameDialog.B
         return returnVal;
     }
 
+    /**
+     * returns the drawable for the percentage of confidence
+     * @param percentage
+     * @return Drawable
+     */
     public GradientDrawable setGradientColor(double percentage) {
         int[] colors = new int[2];
         colors[0] = Color.parseColor("#282933");
@@ -190,6 +224,11 @@ public class ImageInflater extends AppCompatActivity implements editNameDialog.B
         return gd;
     }
 
+    /**
+     * returns the calculated color on a scale from red to green based on confidence
+     * level.
+     * @param percentage
+     */
     public String getColorPercentage(int percentage)
     {
         int g = ((255 * percentage) / 100);
@@ -201,6 +240,10 @@ public class ImageInflater extends AppCompatActivity implements editNameDialog.B
         return hex;
     }
 
+    /**
+     * Creates the action bar with a unique name for each image
+     * @param name
+     */
     public void setupActionBar(String name) {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_HOME_AS_UP);
@@ -224,6 +267,10 @@ public class ImageInflater extends AppCompatActivity implements editNameDialog.B
         return true;
     }
 
+    /**
+     * on submit it will change the images name to the new name in the textfield
+     * @param text
+     */
     @Override
     public void onButtonClicked(String text) {
         image.setName(text);

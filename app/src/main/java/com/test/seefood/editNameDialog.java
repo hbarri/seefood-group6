@@ -22,11 +22,13 @@ public class editNameDialog extends BottomSheetDialogFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.imageinflator_dialog, container, false);
 
+        //attach to the button and name field in the popup dialog.
         Button submit = v.findViewById(R.id.submit);
         name = v.findViewById(R.id.editText);
 
         name.setHint("Name");
 
+        //emit the new name of the image on button click
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -42,6 +44,10 @@ public class editNameDialog extends BottomSheetDialogFragment {
         void onButtonClicked(String text);
     }
 
+    /**
+     * attach the editName Dialog to a listener to call on button clicked
+     * @return
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

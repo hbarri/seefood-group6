@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import java.io.IOException;
 
-public class SeeFood extends AppCompatActivity implements helpDialog.BottomSheetListener {
+public class SeeFood extends AppCompatActivity {
     private final int imageCapture = 1, imageGallery = 2;
 
     /**
@@ -133,10 +133,5 @@ public class SeeFood extends AppCompatActivity implements helpDialog.BottomSheet
 
         tv.setText("SeeFood");
         tv.setPadding(30, 0, 0, 0);
-    }
-
-    @Override
-    public void onButtonClicked(String text) {
-
     }
 }

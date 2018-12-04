@@ -133,9 +133,11 @@ public class ImageAdapter extends BaseAdapter {
                 if (fav == false) {
                     favorite.setImageResource(R.drawable.like_enabled);
                     image.setIsFavorite(true);
+                    fav = true;
                 } else {
                     favorite.setImageResource(R.drawable.like_disabled);
                     image.setIsFavorite(false);
+                    fav = false;
                 }
             }
         });
