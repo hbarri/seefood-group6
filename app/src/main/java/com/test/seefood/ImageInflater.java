@@ -80,7 +80,7 @@ public class ImageInflater extends AppCompatActivity implements editNameDialog.B
         this.getWindow().getWindowManager().getDefaultDisplay().getMetrics(dm);
         int width = dm.widthPixels;
 
-        progress.setBackground(setGradientColor(100 * calculatePercentage(image.getConfidenceLevel())));
+        progress.setBackground(setGradientColor());
 
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
 
@@ -209,18 +209,23 @@ public class ImageInflater extends AppCompatActivity implements editNameDialog.B
     }
 
     /**
-     * returns the drawable for the percentage of confidence
-     * @param percentage
+     * returns the drawable for the percentage of confidence.
      * @return Drawable
      */
-    public GradientDrawable setGradientColor(double percentage) {
+    public GradientDrawable setGradientColor() {
+
         int[] colors = new int[2];
         colors[0] = Color.parseColor("#282933");
-        colors[1] = Color.parseColor(getColorPercentage((int)percentage));
 
+        if (image.getIsFood().equalsIgnoreCase("I SEE FOOD")) {
+            colors[1] = Color.parseColor("#278422");
+        } else {
+            colors[1] = Color.parseColor("#a81515");
+        }
 
         GradientDrawable gd = new GradientDrawable(
                 GradientDrawable.Orientation.TOP_BOTTOM, colors);
+
         return gd;
     }
 
@@ -229,8 +234,7 @@ public class ImageInflater extends AppCompatActivity implements editNameDialog.B
      * level.
      * @param percentage
      */
-    public String getColorPercentage(int percentage)
-    {
+    public String getColorPercentage(int percentage) {
         int g = ((255 * percentage) / 100);
         int r = (255 * (100 - percentage)) / 100;
         int b = 0;
