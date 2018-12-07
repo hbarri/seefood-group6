@@ -17,6 +17,4 @@ of the tested images and view the response from the AI.
 
 The gallery also gives the user the capability to like their favorite images by clicking on the image's heart icon. They can then filter based on their favorited images and only be able to see those by clicking on the heart icon on the top right corner of the gallery view (as shown below). Users are also able to delete images from the gallery if they decide they do not want to see an image anymore. This is done by clicking on the edit icon on the top right of the gallery view, selecting the "x" of the images they wish to delete, and clicking done.
 
-<img src="https://user-images.githubusercontent.com/22596783/48750282-4c811e00-ec4c-11e8-9e47-0587510410b1.png" width="300" height="550">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://user-images.githubusercontent.com/22596783/49658619-75f1c600-fa10-11e8-929e-2361a7e2ce0e.jpg" width="300" height="550">
-
-<img src="https://user-images.githubusercontent.com/22596783/49658655-915cd100-fa10-11e8-8c57-40187155a2c5.jpg" width="300" height="550">
+<img src="https://user-images.githubusercontent.com/22596783/49658619-75f1c600-fa10-11e8-929e-2361a7e2ce0e.jpg" width="300" height="550">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://user-images.githubusercontent.com/22596783/49658655-915cd100-fa10-11e8-8c57-40187155a2c5.jpg" width="300" height="550">
